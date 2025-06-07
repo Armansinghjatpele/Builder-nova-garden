@@ -37,22 +37,23 @@ const TeacherAttendance = () => {
   const { user, role } = useAuth();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSubject, setSelectedSubject] = useState<string>("");
-  const [selectedClass, setSelectedClass] = useState<string>('all');
-  const [timeSlot, setTimeSlot] = useState<string>('');
-  const { markMultipleAttendance, getTodaysAttendance } = useAttendanceManager();
+  const [selectedClass, setSelectedClass] = useState<string>("all");
+  const [timeSlot, setTimeSlot] = useState<string>("");
+  const { markMultipleAttendance, getTodaysAttendance } =
+    useAttendanceManager();
 
-  if (role !== 'teacher' || !user) return null;
+  if (role !== "teacher" || !user) return null;
 
   const teacher = user as Teacher;
   const studentsInClasses = getStudentsInTeacherClasses(teacher.id);
 
   // Filter students by selected class
-  const filteredStudents = selectedClass === 'all'
-    ? studentsInClasses
-    : studentsInClasses.filter(s => `${s.class}-${s.section}` === selectedClass);
-        (s) => `${s.class}-${s.section}` === selectedClass,
-      )
-    : studentsInClasses;
+  const filteredStudents =
+    selectedClass === "all"
+      ? studentsInClasses
+      : studentsInClasses.filter(
+          (s) => `${s.class}-${s.section}` === selectedClass,
+        );
 
   // Get teacher's subjects
   const teacherSubjects = mockSubjects.filter((subject) =>
@@ -183,7 +184,7 @@ const TeacherAttendance = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Classes</SelectItem>
-                    {teacher.classes.map(className => (
+                    {teacher.classes.map((className) => (
                       <SelectItem key={className} value={className}>
                         {className}
                       </SelectItem>
