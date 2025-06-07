@@ -289,16 +289,15 @@ const TeacherNavigation = () => {
                 to={item.to}
                 className={cn(
                   "flex flex-col items-center py-1 px-2 rounded-lg transition-colors min-w-0 flex-1 min-h-[48px] justify-center",
-                  isActive
-                    ? "text-green-600 bg-green-50"
-                    : "text-gray-600"
+                  isActive ? "text-green-600 bg-green-50" : "text-gray-600",
                 )}
               >
                 <Icon className="h-5 w-5 mb-1" />
-                <span className="text-xs font-medium truncate">{item.label}</span>
+                <span className="text-xs font-medium truncate">
+                  {item.label}
+                </span>
               </Link>
             );
-          })}
           })}
         </div>
       </div>
