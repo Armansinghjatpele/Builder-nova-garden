@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { getStudentsInTeacherClasses } from "@/lib/teacherData";
 import { calculateStudentStats } from "@/lib/studentData";
@@ -19,7 +20,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAttendanceManager } from "@/hooks/useAttendanceManager";
-import { useState } from "react";
 import { format } from "date-fns";
 import {
   Users,
