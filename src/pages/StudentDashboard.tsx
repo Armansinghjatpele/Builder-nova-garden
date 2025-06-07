@@ -20,10 +20,11 @@ import {
 import { format } from "date-fns";
 
 const StudentDashboard = () => {
-  const { student } = useAuth();
+  const { user, isStudent } = useAuth();
 
-  if (!student) return null;
+  if (!user || !isStudent) return null;
 
+  const student = user;
   const stats = calculateStudentStats(student.id);
   const recentAttendance = getStudentRecentAttendance(student.id, 5);
 

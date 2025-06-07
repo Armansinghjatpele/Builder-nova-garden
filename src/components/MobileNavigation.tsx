@@ -18,8 +18,10 @@ import { useState } from "react";
 
 const MobileNavigation = () => {
   const location = useLocation();
-  const { student, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const student = user;
 
   const navItems = [
     {

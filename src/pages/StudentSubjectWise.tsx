@@ -25,10 +25,12 @@ import {
 import { getSubjectById } from "@/lib/attendanceData";
 
 const StudentSubjectWise = () => {
-  const { student } = useAuth();
+  const { user, isStudent } = useAuth();
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
 
-  if (!student) return null;
+  if (!user || !isStudent) return null;
+
+  const student = user;
 
   const stats = calculateStudentStats(student.id);
   const allRecords = getStudentAttendanceRecords(student.id);

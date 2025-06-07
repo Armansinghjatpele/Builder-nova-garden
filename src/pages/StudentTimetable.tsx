@@ -12,10 +12,12 @@ import {
 } from "lucide-react";
 
 const StudentTimetable = () => {
-  const { student } = useAuth();
+  const { user, isStudent } = useAuth();
   const [selectedDay, setSelectedDay] = useState("Monday");
 
-  if (!student) return null;
+  if (!user || !isStudent) return null;
+
+  const student = user;
 
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const currentDayIndex = days.indexOf(selectedDay);

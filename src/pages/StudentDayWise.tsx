@@ -18,10 +18,12 @@ import {
 import { getSubjectById } from "@/lib/attendanceData";
 
 const StudentDayWise = () => {
-  const { student } = useAuth();
+  const { user, isStudent } = useAuth();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  if (!student) return null;
+  if (!user || !isStudent) return null;
+
+  const student = user;
 
   const selectedDateString = format(selectedDate, "yyyy-MM-dd");
   const dayAttendance = getStudentAttendanceByDate(
