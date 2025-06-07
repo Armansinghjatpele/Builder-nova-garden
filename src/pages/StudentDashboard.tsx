@@ -1,8 +1,9 @@
 import { useAuth } from "@/hooks/useAuth";
+import { useAttendanceManager } from "@/hooks/useAttendanceManager";
 import {
-  calculateStudentStats,
-  getStudentRecentAttendance,
-} from "@/lib/studentData";
+  calculateLiveStudentStats,
+  getLiveStudentRecentAttendance,
+} from "@/lib/studentDataLive";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -21,12 +22,18 @@ import { format } from "date-fns";
 
 const StudentDashboard = () => {
   const { user, isStudent } = useAuth();
+  const { getAttendanceRecords } = useAttendanceManager();
 
   if (!user || !isStudent) return null;
 
   const student = user;
-  const stats = calculateStudentStats(student.id);
-  const recentAttendance = getStudentRecentAttendance(student.id, 5);
+  const attendanceRecords = getAttendanceRecords();
+  const stats = calculateLiveStudentStats(student.id, attendanceRecords);
+  const recentAttendance = getLiveStudentRecentAttendance(
+    student.id,
+    5,
+    attendanceRecords,
+  );
 
   if (!stats) {
     return (
@@ -149,6 +156,25 @@ const StudentDashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Live Update Notice */}
+      {attendanceRecords.length !== 0 && (
+        <Card className="border-0 shadow-sm bg-green-50">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-green-800">
+                  Live Data
+                </span>
+              </div>
+              <span className="text-xs text-green-600">
+                Last updated: {format(new Date(), "MMM d, h:mm a")}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Subjects Overview */}
       <Card className="border-0 shadow-sm">

@@ -18,6 +18,7 @@ import StudentTimetable from "./pages/StudentTimetable";
 // Teacher Pages
 import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherStudents from "./pages/TeacherStudents";
+import TeacherAttendance from "./pages/TeacherAttendance";
 
 import NotFound from "./pages/NotFound";
 
@@ -88,11 +89,11 @@ const AppContent = () => {
               }
             />
             <Route
-              path="/attendance"
-              element={
-                <ProtectedRoute allowedRoles={["teacher"]}>
-                  <TeacherDashboard />
-                </ProtectedRoute>
+            <Route path="/attendance" element={
+              <ProtectedRoute allowedRoles={['teacher']}>
+                <TeacherAttendance />
+              </ProtectedRoute>
+            } />
               }
             />
             <Route
@@ -152,11 +153,11 @@ const AppContent = () => {
                 }
               />
               <Route
-                path="/attendance"
-                element={
-                  <ProtectedRoute allowedRoles={["teacher"]}>
-                    <TeacherDashboard />
-                  </ProtectedRoute>
+              <Route path="/attendance" element={
+                <ProtectedRoute allowedRoles={['teacher']}>
+                  <TeacherAttendance />
+                </ProtectedRoute>
+              } />
                 }
               />
               <Route
