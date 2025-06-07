@@ -5,17 +5,25 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
 import MobileNavigation from "./components/MobileNavigation";
+import TeacherNavigation from "./components/TeacherNavigation";
 import Login from "./pages/Login";
+
+// Student Pages
 import StudentDashboard from "./pages/StudentDashboard";
 import StudentSubjectWise from "./pages/StudentSubjectWise";
 import StudentDayWise from "./pages/StudentDayWise";
 import StudentTimetable from "./pages/StudentTimetable";
+
+// Teacher Pages
+import TeacherDashboard from "./pages/TeacherDashboard";
+import TeacherStudents from "./pages/TeacherStudents";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isStudent, isTeacher } = useAuth();
 
   if (isLoading) {
     return (
@@ -32,16 +40,36 @@ const AppContent = () => {
     return <Login />;
   }
 
+  // Render appropriate navigation based on role
+  const Navigation = isTeacher ? TeacherNavigation : MobileNavigation;
+
   return (
     <div className="flex h-screen bg-gray-50">
-      <MobileNavigation />
+      <Navigation />
       <main className="flex-1 overflow-auto lg:ml-64 ml-0">
         <div className="lg:p-6 p-0">
           <Routes>
-            <Route path="/" element={<StudentDashboard />} />
-            <Route path="/subject-wise" element={<StudentSubjectWise />} />
-            <Route path="/day-wise" element={<StudentDayWise />} />
-            <Route path="/timetable" element={<StudentTimetable />} />
+            {/* Student Routes */}
+            {isStudent && (
+              <>
+                <Route path="/" element={<StudentDashboard />} />
+                <Route path="/subject-wise" element={<StudentSubjectWise />} />
+                <Route path="/day-wise" element={<StudentDayWise />} />
+                <Route path="/timetable" element={<StudentTimetable />} />
+              </>
+            )}
+
+            {/* Teacher Routes */}
+            {isTeacher && (
+              <>
+                <Route path="/" element={<TeacherDashboard />} />
+                <Route path="/students" element={<TeacherStudents />} />
+                <Route path="/attendance" element={<TeacherDashboard />} />
+                <Route path="/reports" element={<TeacherDashboard />} />
+                <Route path="/timetable" element={<StudentTimetable />} />
+              </>
+            )}
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
