@@ -88,7 +88,6 @@ const AppContent = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
             <Route path="/attendance" element={
               <ProtectedRoute allowedRoles={['teacher']}>
                 <TeacherAttendance />
