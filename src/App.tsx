@@ -88,11 +88,12 @@ const AppContent = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/attendance" element={
-              <ProtectedRoute allowedRoles={['teacher']}>
-                <TeacherAttendance />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/attendance"
+              element={
+                <ProtectedRoute allowedRoles={["teacher"]}>
+                  <TeacherAttendance />
+                </ProtectedRoute>
               }
             />
             <Route
@@ -152,11 +153,11 @@ const AppContent = () => {
                 }
               />
               <Route
-              <Route path="/attendance" element={
-                <ProtectedRoute allowedRoles={['teacher']}>
-                  <TeacherAttendance />
-                </ProtectedRoute>
-              } />
+                path="/attendance"
+                element={
+                  <ProtectedRoute allowedRoles={["teacher"]}>
+                    <TeacherAttendance />
+                  </ProtectedRoute>
                 }
               />
               <Route
