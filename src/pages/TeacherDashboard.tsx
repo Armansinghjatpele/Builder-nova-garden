@@ -19,7 +19,7 @@ import {
   CheckCircle,
   XCircle,
   GraduationCap,
-  ChalkboardTeacher,
+  UserCheck,
 } from "lucide-react";
 import { Teacher } from "@/types/teacher";
 
@@ -84,7 +84,7 @@ const TeacherDashboard = () => {
                 </p>
                 <div className="flex items-center mt-2 space-x-2">
                   <Badge className="bg-white text-green-700 text-xs">
-                    <ChalkboardTeacher className="w-3 h-3 mr-1" />
+                    <UserCheck className="w-3 h-3 mr-1" />
                     {teacher.subjects.length} Subject
                     {teacher.subjects.length > 1 ? "s" : ""}
                   </Badge>

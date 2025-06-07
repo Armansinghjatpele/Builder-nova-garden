@@ -12,7 +12,7 @@ import {
   Menu,
   X,
   LogOut,
-  ChalkboardTeacher,
+  UserCheck,
   BookOpen,
   BarChart3,
 } from "lucide-react";
@@ -185,7 +185,7 @@ const TeacherNavigation = () => {
               className="w-full justify-start h-auto p-3"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <ChalkboardTeacher className="mr-3 h-4 w-4" />
+              <UserCheck className="mr-3 h-4 w-4" />
               <div className="text-left">
                 <div className="text-sm font-medium">Teacher Profile</div>
                 <div className="text-xs text-gray-500">
@@ -193,7 +193,6 @@ const TeacherNavigation = () => {
                 </div>
               </div>
             </Button>
-
             <Button
               variant="ghost"
               className="w-full justify-start h-auto p-3 text-red-600 hover:text-red-700 hover:bg-red-50"
