@@ -62,7 +62,7 @@ const MobileNavigation = () => {
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+      <div className="lg:hidden bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between sticky top-0 z-40 min-h-[64px]">
         <div className="flex items-center space-x-3">
           <Avatar className="w-8 h-8">
             <AvatarImage src={student?.avatar} alt={student?.name} />
@@ -74,11 +74,9 @@ const MobileNavigation = () => {
                 .toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div>
-            <h1 className="text-lg font-semibold text-gray-900">
-              My Attendance
-            </h1>
-            <p className="text-xs text-gray-500">{student?.rollNumber}</p>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-base font-semibold text-gray-900 truncate">My Attendance</h1>
+            <p className="text-xs text-gray-500 truncate">{student?.rollNumber}</p>
           </div>
         </div>
         <Button
@@ -269,8 +267,8 @@ const MobileNavigation = () => {
       </div>
 
       {/* Bottom Navigation for Mobile */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-30">
-        <div className="flex justify-around">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-3 z-30 min-h-[72px]">
+        <div className="flex justify-around items-center">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.to;
@@ -280,16 +278,17 @@ const MobileNavigation = () => {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex flex-col items-center py-2 px-3 rounded-lg transition-colors min-w-0 flex-1",
-                  isActive ? "text-blue-600" : "text-gray-600",
+                  "flex flex-col items-center py-1 px-2 rounded-lg transition-colors min-w-0 flex-1 min-h-[48px] justify-center",
+                  isActive
+                    ? "text-blue-600 bg-blue-50"
+                    : "text-gray-600"
                 )}
               >
                 <Icon className="h-5 w-5 mb-1" />
-                <span className="text-xs font-medium truncate">
-                  {item.label}
-                </span>
+                <span className="text-xs font-medium truncate">{item.label}</span>
               </Link>
             );
+          })}
           })}
         </div>
       </div>

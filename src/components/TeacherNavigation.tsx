@@ -277,8 +277,8 @@ const TeacherNavigation = () => {
       </div>
 
       {/* Bottom Navigation for Mobile */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-30">
-        <div className="flex justify-around">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-3 z-30 min-h-[72px]">
+        <div className="flex justify-around items-center">
           {navItems.slice(0, 4).map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.to;
@@ -288,16 +288,17 @@ const TeacherNavigation = () => {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex flex-col items-center py-2 px-3 rounded-lg transition-colors min-w-0 flex-1",
-                  isActive ? "text-green-600" : "text-gray-600",
+                  "flex flex-col items-center py-1 px-2 rounded-lg transition-colors min-w-0 flex-1 min-h-[48px] justify-center",
+                  isActive
+                    ? "text-green-600 bg-green-50"
+                    : "text-gray-600"
                 )}
               >
                 <Icon className="h-5 w-5 mb-1" />
-                <span className="text-xs font-medium truncate">
-                  {item.label}
-                </span>
+                <span className="text-xs font-medium truncate">{item.label}</span>
               </Link>
             );
+          })}
           })}
         </div>
       </div>

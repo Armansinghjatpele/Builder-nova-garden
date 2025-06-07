@@ -45,10 +45,10 @@ const AppContent = () => {
   const Navigation = isTeacher ? TeacherNavigation : MobileNavigation;
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 lg:h-screen">
       <Navigation />
-      <main className="flex-1 overflow-auto lg:ml-64 ml-0">
-        <div className="lg:p-6 p-0">
+      <main className="flex-1 overflow-auto lg:ml-64 ml-0 pb-20 lg:pb-0">
+        <div className="lg:p-6 p-4">
           <Routes>
             {/* Dashboard Route - Role-based */}
             <Route
