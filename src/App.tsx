@@ -4,24 +4,27 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
-import DebugAuth from "./components/DebugAuth";
+import MobileNavigation from "./components/MobileNavigation";
+import TeacherNavigation from "./components/TeacherNavigation";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
-import TestDashboard from "./pages/TestDashboard";
+
+// Student Pages
+import StudentDashboard from "./pages/StudentDashboard";
+import StudentSubjectWise from "./pages/StudentSubjectWise";
+import StudentDayWise from "./pages/StudentDayWise";
+import StudentTimetable from "./pages/StudentTimetable";
+
+// Teacher Pages
+import TeacherDashboard from "./pages/TeacherDashboard";
+import TeacherStudents from "./pages/TeacherStudents";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { isAuthenticated, isLoading, isStudent, isTeacher, role } = useAuth();
-
-  // Debug: Always show debug info for now
-  console.log("App State:", {
-    isAuthenticated,
-    isLoading,
-    isStudent,
-    isTeacher,
-    role,
-  });
+  const { isAuthenticated, isLoading, isStudent, isTeacher } = useAuth();
 
   if (isLoading) {
     return (
@@ -35,23 +38,84 @@ const AppContent = () => {
   }
 
   if (!isAuthenticated) {
-    return (
-      <div>
-        <DebugAuth />
-        <Login />
-      </div>
-    );
+    return <Login />;
   }
 
+  // Render appropriate navigation based on role
+  const Navigation = isTeacher ? TeacherNavigation : MobileNavigation;
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DebugAuth />
-      <div className="p-4">
-        <Routes>
-          <Route path="/" element={<TestDashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
+    <div className="flex h-screen bg-gray-50">
+      <Navigation />
+      <main className="flex-1 overflow-auto lg:ml-64 ml-0">
+        <div className="lg:p-6 p-0">
+          <Routes>
+            {/* Dashboard Route - Role-based */}
+            <Route
+              path="/"
+              element={
+                isStudent ? (
+                  <StudentDashboard />
+                ) : isTeacher ? (
+                  <TeacherDashboard />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
+
+            {/* Student-only Routes */}
+            <Route
+              path="/subject-wise"
+              element={
+                <ProtectedRoute allowedRoles={["student"]}>
+                  <StudentSubjectWise />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/day-wise"
+              element={
+                <ProtectedRoute allowedRoles={["student"]}>
+                  <StudentDayWise />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Teacher-only Routes */}
+            <Route
+              path="/students"
+              element={
+                <ProtectedRoute allowedRoles={["teacher"]}>
+                  <TeacherStudents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/attendance"
+              element={
+                <ProtectedRoute allowedRoles={["teacher"]}>
+                  <TeacherDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <ProtectedRoute allowedRoles={["teacher"]}>
+                  <TeacherDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Shared Routes */}
+            <Route path="/timetable" element={<StudentTimetable />} />
+
+            {/* Catch-all 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </main>
     </div>
   );
 };
