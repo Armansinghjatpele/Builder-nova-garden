@@ -45,12 +45,12 @@ const AppContent = () => {
   const Navigation = isTeacher ? TeacherNavigation : MobileNavigation;
 
   return (
-    <div className="flex min-h-screen bg-gray-50 lg:h-screen">
-      <Navigation />
-      <main className="flex-1 overflow-auto lg:ml-64 ml-0 pb-20 lg:pb-0">
-        <div className="lg:p-6 p-4">
+    <>
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        <Navigation />
+        <main className="pt-16 pb-20 min-h-screen bg-gray-50">
           <Routes>
-            {/* Dashboard Route - Role-based */}
             <Route
               path="/"
               element={
@@ -63,8 +63,6 @@ const AppContent = () => {
                 )
               }
             />
-
-            {/* Student-only Routes */}
             <Route
               path="/subject-wise"
               element={
@@ -81,8 +79,6 @@ const AppContent = () => {
                 </ProtectedRoute>
               }
             />
-
-            {/* Teacher-only Routes */}
             <Route
               path="/students"
               element={
@@ -107,16 +103,77 @@ const AppContent = () => {
                 </ProtectedRoute>
               }
             />
-
-            {/* Shared Routes */}
             <Route path="/timetable" element={<StudentTimetable />} />
-
-            {/* Catch-all 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex lg:h-screen bg-gray-50">
+        <Navigation />
+        <main className="flex-1 overflow-auto ml-64">
+          <div className="p-6">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  isStudent ? (
+                    <StudentDashboard />
+                  ) : isTeacher ? (
+                    <TeacherDashboard />
+                  ) : (
+                    <NotFound />
+                  )
+                }
+              />
+              <Route
+                path="/subject-wise"
+                element={
+                  <ProtectedRoute allowedRoles={["student"]}>
+                    <StudentSubjectWise />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/day-wise"
+                element={
+                  <ProtectedRoute allowedRoles={["student"]}>
+                    <StudentDayWise />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/students"
+                element={
+                  <ProtectedRoute allowedRoles={["teacher"]}>
+                    <TeacherStudents />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/attendance"
+                element={
+                  <ProtectedRoute allowedRoles={["teacher"]}>
+                    <TeacherDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/reports"
+                element={
+                  <ProtectedRoute allowedRoles={["teacher"]}>
+                    <TeacherDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/timetable" element={<StudentTimetable />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+    </>
   );
 };
 

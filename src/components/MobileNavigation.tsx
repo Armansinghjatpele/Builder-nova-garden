@@ -61,12 +61,12 @@ const MobileNavigation = () => {
 
   return (
     <>
-      {/* Mobile Header */}
-      <div className="lg:hidden bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between sticky top-0 z-40 min-h-[64px]">
-        <div className="flex items-center space-x-3">
-          <Avatar className="w-8 h-8">
+      {/* Fixed Mobile Header */}
+      <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between z-50 h-16">
+        <div className="flex items-center space-x-3 flex-1 min-w-0">
+          <Avatar className="w-8 h-8 flex-shrink-0">
             <AvatarImage src={student?.avatar} alt={student?.name} />
-            <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
+            <AvatarFallback className="bg-blue-100 text-blue-600 text-xs">
               {student?.name
                 ?.split(" ")
                 .map((n) => n[0])
@@ -87,7 +87,7 @@ const MobileNavigation = () => {
           variant="ghost"
           size="sm"
           onClick={toggleMobileMenu}
-          className="p-2"
+          className="p-2 flex-shrink-0"
         >
           {isMobileMenuOpen ? (
             <X className="h-5 w-5" />
@@ -100,7 +100,7 @@ const MobileNavigation = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50"
+          className="fixed inset-0 z-50 bg-black bg-opacity-50"
           onClick={toggleMobileMenu}
         />
       )}
@@ -108,7 +108,7 @@ const MobileNavigation = () => {
       {/* Mobile Sidebar */}
       <div
         className={cn(
-          "lg:hidden fixed inset-y-0 left-0 z-50 w-80 bg-white transform transition-transform duration-200 ease-in-out",
+          "fixed inset-y-0 left-0 z-50 w-80 bg-white transform transition-transform duration-200 ease-in-out",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -204,75 +204,9 @@ const MobileNavigation = () => {
         </div>
       </div>
 
-      {/* Desktop Sidebar - Simplified for mobile-first */}
-      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 bg-white border-r border-gray-200">
-        <div className="flex flex-col h-full">
-          {/* Desktop Profile Section */}
-          <div className="p-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-            <div className="flex items-center space-x-3">
-              <Avatar className="w-10 h-10 border-2 border-white">
-                <AvatarImage src={student?.avatar} alt={student?.name} />
-                <AvatarFallback className="bg-white text-blue-600">
-                  {student?.name
-                    ?.split(" ")
-                    .map((n) => n[0])
-                    .join("")
-                    .toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h2 className="font-semibold">{student?.name}</h2>
-                <p className="text-blue-100 text-sm">{student?.rollNumber}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.to;
-
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={cn(
-                    "flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-blue-50 text-blue-700 border border-blue-200"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                  )}
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  <div>
-                    <div>{item.label}</div>
-                    <div className="text-xs text-gray-500">
-                      {item.description}
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Desktop Footer */}
-          <div className="p-4 border-t border-gray-200">
-            <Button
-              variant="ghost"
-              className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
-              onClick={handleLogout}
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign Out
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Navigation for Mobile */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-3 z-30 min-h-[72px]">
-        <div className="flex justify-around items-center">
+      {/* Fixed Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 z-40 h-20">
+        <div className="flex justify-around items-center h-full">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.to;
@@ -282,7 +216,7 @@ const MobileNavigation = () => {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex flex-col items-center py-1 px-2 rounded-lg transition-colors min-w-0 flex-1 min-h-[48px] justify-center",
+                  "flex flex-col items-center justify-center py-1 px-2 rounded-lg transition-colors min-w-0 flex-1 h-14",
                   isActive ? "text-blue-600 bg-blue-50" : "text-gray-600",
                 )}
               >
