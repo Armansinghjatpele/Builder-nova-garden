@@ -7,8 +7,6 @@ import { AuthProvider, useAuth } from "./hooks/useAuth";
 import DebugAuth from "./components/DebugAuth";
 import Login from "./pages/Login";
 import TestDashboard from "./pages/TestDashboard";
-import StudentDashboard from "./pages/StudentDashboard";
-import TeacherDashboard from "./pages/TeacherDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,23 +48,7 @@ const AppContent = () => {
       <DebugAuth />
       <div className="p-4">
         <Routes>
-          <Route
-            path="/"
-            element={
-              isStudent ? (
-                <StudentDashboard />
-              ) : isTeacher ? (
-                <TeacherDashboard />
-              ) : (
-                <div className="text-center p-8">
-                  <h2 className="text-xl font-bold text-red-600">Role Error</h2>
-                  <p>Unable to determine user role. Role: {role}</p>
-                  <p>isStudent: {isStudent.toString()}</p>
-                  <p>isTeacher: {isTeacher.toString()}</p>
-                </div>
-              )
-            }
-          />
+          <Route path="/" element={<TestDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
