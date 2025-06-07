@@ -135,37 +135,49 @@ const AppContent = () => {
                     )
                   }
                 />
-                <Route
-                  path="/attendance"
-                  element={
-                    isTeacher ? (
-                      <TeacherDashboard />
-                    ) : (
-                      <ProtectedRoute allowedRoles={["teacher"]}>
-                        <TeacherDashboard />
-                      </ProtectedRoute>
-                    )
-                  }
-                />
-                <Route
-                  path="/reports"
-                  element={
-                    isTeacher ? (
-                      <TeacherDashboard />
-                    ) : (
-                      <ProtectedRoute allowedRoles={["teacher"]}>
-                        <TeacherDashboard />
-                      </ProtectedRoute>
-                    )
-                  }
-                />
+          <Routes>
+            {/* Dashboard Route - Role-based */}
+            <Route path="/" element={
+              isStudent ? <StudentDashboard /> :
+              isTeacher ? <TeacherDashboard /> :
+              <NotFound />
+            } />
 
-                {/* Shared Routes */}
-                <Route path="/timetable" element={<StudentTimetable />} />
+            {/* Student-only Routes */}
+            <Route path="/subject-wise" element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentSubjectWise />
+              </ProtectedRoute>
+            } />
+            <Route path="/day-wise" element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentDayWise />
+              </ProtectedRoute>
+            } />
 
-                {/* Catch-all 404 */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+            {/* Teacher-only Routes */}
+            <Route path="/students" element={
+              <ProtectedRoute allowedRoles={['teacher']}>
+                <TeacherStudents />
+              </ProtectedRoute>
+            } />
+            <Route path="/attendance" element={
+              <ProtectedRoute allowedRoles={['teacher']}>
+                <TeacherDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoute allowedRoles={['teacher']}>
+                <TeacherDashboard />
+              </ProtectedRoute>
+            } />
+
+            {/* Shared Routes */}
+            <Route path="/timetable" element={<StudentTimetable />} />
+
+            {/* Catch-all 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
             </Routes>
           </Routes>
         </div>
