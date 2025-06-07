@@ -153,9 +153,22 @@ const TeacherAttendance = () => {
             <CardTitle className="text-lg">Class Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {/* Date Selection */}
-              <div className="space-y-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+              <div className="text-sm font-medium text-blue-800">
+                Attendance Summary
+              </div>
+              <div className="flex flex-wrap gap-2 sm:gap-4 text-sm">
+                <span className="text-green-600 font-medium">
+                  Present: {Object.values(attendanceState).filter(s => s === 'present').length}
+                </span>
+                <span className="text-yellow-600 font-medium">
+                  Late: {Object.values(attendanceState).filter(s => s === 'late').length}
+                </span>
+                <span className="text-red-600 font-medium">
+                  Absent: {Object.values(attendanceState).filter(s => s === 'absent').length}
+                </span>
+              </div>
+            </div>
                 <label className="text-sm font-medium">Date</label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -237,16 +250,17 @@ const TeacherAttendance = () => {
       {/* Students List */}
       {filteredStudents.length > 0 && selectedSubject && timeSlot && (
         <Card className="border-0 shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <CardTitle className="flex items-center">
               <Users className="mr-2 h-5 w-5" />
               Students ({filteredStudents.length})
             </CardTitle>
-            <div className="flex space-x-2">
+            <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setAttendanceState({})}
+                className="w-full sm:w-auto"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Reset
@@ -254,7 +268,7 @@ const TeacherAttendance = () => {
               <Button
                 onClick={saveAttendance}
                 disabled={!canSaveAttendance}
-                className="bg-green-600 hover:bg-green-700"
+                className="bg-green-600 hover:bg-green-700 w-full sm:w-auto"
               >
                 <Save className="mr-2 h-4 w-4" />
                 Save Attendance
@@ -269,38 +283,24 @@ const TeacherAttendance = () => {
 
                 return (
                   <div
-                    key={student.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-shadow"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <Avatar className="w-10 h-10">
+                  <div key={student.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-shadow space-y-3 sm:space-y-0">
+                    <div className="flex items-center space-x-4 flex-1 min-w-0">
+                      <Avatar className="w-10 h-10 flex-shrink-0">
                         <AvatarImage src={student.avatar} alt={student.name} />
                         <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
-                          {student.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")
-                            .toUpperCase()}
+                          {student.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
-                      <div>
-                        <h3 className="font-medium text-gray-900">
-                          {student.name}
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          {student.rollNumber}
-                        </p>
-                        <div className="flex items-center space-x-2 mt-1">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">{student.name}</h3>
+                        <p className="text-sm text-gray-500 truncate">{student.rollNumber}</p>
+                        <div className="flex items-center space-x-2 mt-1 flex-wrap">
                           <Badge variant="outline" className="text-xs">
                             {student.class}-{student.section}
                           </Badge>
                           {studentStats && (
                             <Badge
-                              variant={
-                                studentStats.percentage >= 75
-                                  ? "default"
-                                  : "destructive"
-                              }
+                              variant={studentStats.percentage >= 75 ? "default" : "destructive"}
                               className="text-xs"
                             >
                               {studentStats.percentage}% overall
@@ -309,59 +309,32 @@ const TeacherAttendance = () => {
                         </div>
                       </div>
                     </div>
-
-                    <div className="flex space-x-2">
-                      <Button
-                        variant={
-                          currentStatus === "present" ? "default" : "outline"
-                        }
                         size="sm"
-                        onClick={() =>
-                          markStudentAttendance(student.id, "present")
-                        }
-                        className={
-                          currentStatus === "present"
-                            ? "bg-green-600 hover:bg-green-700"
-                            : ""
-                        }
+                        onClick={() => markStudentAttendance(student.id, 'present')}
+                        className={`flex-1 sm:flex-none ${currentStatus === 'present' ? 'bg-green-600 hover:bg-green-700' : ''}`}
                       >
                         <CheckCircle className="mr-1 h-4 w-4" />
                         Present
                       </Button>
                       <Button
-                        variant={
-                          currentStatus === "late" ? "default" : "outline"
-                        }
+                        variant={currentStatus === 'late' ? "default" : "outline"}
                         size="sm"
-                        onClick={() =>
-                          markStudentAttendance(student.id, "late")
-                        }
-                        className={
-                          currentStatus === "late"
-                            ? "bg-yellow-600 hover:bg-yellow-700"
-                            : ""
-                        }
+                        onClick={() => markStudentAttendance(student.id, 'late')}
+                        className={`flex-1 sm:flex-none ${currentStatus === 'late' ? 'bg-yellow-600 hover:bg-yellow-700' : ''}`}
                       >
                         <Clock className="mr-1 h-4 w-4" />
                         Late
                       </Button>
                       <Button
-                        variant={
-                          currentStatus === "absent" ? "default" : "outline"
-                        }
+                        variant={currentStatus === 'absent' ? "default" : "outline"}
                         size="sm"
-                        onClick={() =>
-                          markStudentAttendance(student.id, "absent")
-                        }
-                        className={
-                          currentStatus === "absent"
-                            ? "bg-red-600 hover:bg-red-700"
-                            : ""
-                        }
+                        onClick={() => markStudentAttendance(student.id, 'absent')}
+                        className={`flex-1 sm:flex-none ${currentStatus === 'absent' ? 'bg-red-600 hover:bg-red-700' : ''}`}
                       >
                         <XCircle className="mr-1 h-4 w-4" />
                         Absent
                       </Button>
+                    </div>
                     </div>
                   </div>
                 );
