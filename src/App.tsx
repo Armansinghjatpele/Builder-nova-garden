@@ -49,27 +49,48 @@ const AppContent = () => {
       <main className="flex-1 overflow-auto lg:ml-64 ml-0">
         <div className="lg:p-6 p-0">
           <Routes>
-            {/* Student Routes */}
-            {isStudent && (
-              <>
-                <Route path="/" element={<StudentDashboard />} />
-                <Route path="/subject-wise" element={<StudentSubjectWise />} />
-                <Route path="/day-wise" element={<StudentDayWise />} />
-                <Route path="/timetable" element={<StudentTimetable />} />
-              </>
-            )}
+            {/* Dashboard Route - Role-based */}
+            <Route
+              path="/"
+              element={
+                isStudent ? (
+                  <StudentDashboard />
+                ) : isTeacher ? (
+                  <TeacherDashboard />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
 
-            {/* Teacher Routes */}
-            {isTeacher && (
-              <>
-                <Route path="/" element={<TeacherDashboard />} />
-                <Route path="/students" element={<TeacherStudents />} />
-                <Route path="/attendance" element={<TeacherDashboard />} />
-                <Route path="/reports" element={<TeacherDashboard />} />
-                <Route path="/timetable" element={<StudentTimetable />} />
-              </>
-            )}
+            {/* Student-only Routes */}
+            <Route
+              path="/subject-wise"
+              element={isStudent ? <StudentSubjectWise /> : <NotFound />}
+            />
+            <Route
+              path="/day-wise"
+              element={isStudent ? <StudentDayWise /> : <NotFound />}
+            />
 
+            {/* Teacher-only Routes */}
+            <Route
+              path="/students"
+              element={isTeacher ? <TeacherStudents /> : <NotFound />}
+            />
+            <Route
+              path="/attendance"
+              element={isTeacher ? <TeacherDashboard /> : <NotFound />}
+            />
+            <Route
+              path="/reports"
+              element={isTeacher ? <TeacherDashboard /> : <NotFound />}
+            />
+
+            {/* Shared Routes */}
+            <Route path="/timetable" element={<StudentTimetable />} />
+
+            {/* Catch-all 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
