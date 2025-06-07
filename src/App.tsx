@@ -81,54 +81,91 @@ const AppContent = () => {
               />
 
               {/* Student-only Routes */}
-              <Route
-                path="/subject-wise"
-                element={
-                  <ProtectedRoute allowedRoles={["student"]}>
-                    <StudentSubjectWise />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/day-wise"
-                element={
-                  <ProtectedRoute allowedRoles={["student"]}>
-                    <StudentDayWise />
-                  </ProtectedRoute>
-                }
-              />
+              <Routes>
+                {/* Dashboard Route - Role-based */}
+                <Route
+                  path="/"
+                  element={
+                    isStudent ? (
+                      <StudentDashboard />
+                    ) : isTeacher ? (
+                      <TeacherDashboard />
+                    ) : (
+                      <NotFound />
+                    )
+                  }
+                />
 
-              {/* Teacher-only Routes */}
-              <Route
-                path="/students"
-                element={
-                  <ProtectedRoute allowedRoles={["teacher"]}>
-                    <TeacherStudents />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/attendance"
-                element={
-                  <ProtectedRoute allowedRoles={["teacher"]}>
-                    <TeacherDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/reports"
-                element={
-                  <ProtectedRoute allowedRoles={["teacher"]}>
-                    <TeacherDashboard />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Student-only Routes */}
+                <Route
+                  path="/subject-wise"
+                  element={
+                    isStudent ? (
+                      <StudentSubjectWise />
+                    ) : (
+                      <ProtectedRoute allowedRoles={["student"]}>
+                        <StudentSubjectWise />
+                      </ProtectedRoute>
+                    )
+                  }
+                />
+                <Route
+                  path="/day-wise"
+                  element={
+                    isStudent ? (
+                      <StudentDayWise />
+                    ) : (
+                      <ProtectedRoute allowedRoles={["student"]}>
+                        <StudentDayWise />
+                      </ProtectedRoute>
+                    )
+                  }
+                />
 
-              {/* Shared Routes */}
-              <Route path="/timetable" element={<StudentTimetable />} />
+                {/* Teacher-only Routes */}
+                <Route
+                  path="/students"
+                  element={
+                    isTeacher ? (
+                      <TeacherStudents />
+                    ) : (
+                      <ProtectedRoute allowedRoles={["teacher"]}>
+                        <TeacherStudents />
+                      </ProtectedRoute>
+                    )
+                  }
+                />
+                <Route
+                  path="/attendance"
+                  element={
+                    isTeacher ? (
+                      <TeacherDashboard />
+                    ) : (
+                      <ProtectedRoute allowedRoles={["teacher"]}>
+                        <TeacherDashboard />
+                      </ProtectedRoute>
+                    )
+                  }
+                />
+                <Route
+                  path="/reports"
+                  element={
+                    isTeacher ? (
+                      <TeacherDashboard />
+                    ) : (
+                      <ProtectedRoute allowedRoles={["teacher"]}>
+                        <TeacherDashboard />
+                      </ProtectedRoute>
+                    )
+                  }
+                />
 
-              {/* Catch-all 404 */}
-              <Route path="*" element={<NotFound />} />
+                {/* Shared Routes */}
+                <Route path="/timetable" element={<StudentTimetable />} />
+
+                {/* Catch-all 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
             </Routes>
           </Routes>
         </div>
