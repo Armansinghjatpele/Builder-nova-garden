@@ -81,7 +81,7 @@ const TeacherAttendance = () => {
   );
 
   // Initialize attendance state from existing records
-  React.useEffect(() => {
+  useEffect(() => {
     const initialState: {
       [key: string]: "present" | "absent" | "late" | null;
     } = {};
