@@ -15,8 +15,8 @@ import {
   School,
   BookOpen,
   Users,
-  UserCheck
-} from 'lucide-react';
+  UserCheck,
+} from "lucide-react";
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -121,7 +121,10 @@ const Login = () => {
                   <GraduationCap className="w-4 h-4" />
                   Student
                 </TabsTrigger>
-                <TabsTrigger value="teacher" className="flex items-center gap-2">
+                <TabsTrigger
+                  value="teacher"
+                  className="flex items-center gap-2"
+                >
                   <UserCheck className="w-4 h-4" />
                   Teacher
                 </TabsTrigger>
@@ -207,11 +210,10 @@ const Login = () => {
         <Card className="border-dashed">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              {selectedRole === 'student' ? (
+              {selectedRole === "student" ? (
                 <GraduationCap className="w-4 h-4" />
               ) : (
                 <UserCheck className="w-4 h-4" />
-              )}
               )}
               Demo {selectedRole === "student" ? "Student" : "Teacher"} Accounts
             </CardTitle>
